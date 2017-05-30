@@ -5,13 +5,13 @@ import android.app.Application;
 import com.sanja.example.sunshineapp.home.di.modules.MainModule;
 
 public class AppComponentContainer {
-    private static final String INITIALIZE_EXEPTION =
+    private static final String INITIALIZE_EXCEPTION =
             "You must initialize AppComponent in order to use get() method";
     private static AppComponent appComponent;
 
     public static AppComponent get() {
         if (appComponent == null) {
-            throw new IllegalStateException(INITIALIZE_EXEPTION);
+            throw new IllegalStateException(INITIALIZE_EXCEPTION);
         }
         return appComponent;
     }
