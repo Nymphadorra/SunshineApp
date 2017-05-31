@@ -16,7 +16,7 @@ public class APIModule {
 
     @AppScope
     @Provides
-    public APIService provideAPISerivce(Retrofit retrofit) {
+    public APIService provideAPIService(Retrofit retrofit) {
         return retrofit.create(APIService.class);
     }
 
