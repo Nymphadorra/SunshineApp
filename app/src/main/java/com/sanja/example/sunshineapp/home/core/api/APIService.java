@@ -12,5 +12,5 @@ public interface APIService {
     Call<CurrentWeatherResponse> getCurrentWeather(
             @Query("q") String cityName,
             @Query("units") String unit,
-            @Query("APPID") int apiKey);
+            @Query("APPID") String apiKey);
 }

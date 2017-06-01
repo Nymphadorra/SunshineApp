@@ -13,6 +13,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_root"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
@@ -28,13 +29,22 @@
                 tools:text="London"/>
 
             <TextView
-                android:id="@+id/tv_current_day"
+                android:id="@+id/tv_current_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_city"
                 android:padding="8dp"
                 android:textSize="20sp"
-                tools:text="Monday"/>
+                tools:text="Monday, 25/5"/>
+
+            <TextView
+                android:id="@+id/tv_weather_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_current_date"
+                android:padding="8dp"
+                android:textSize="13sp"
+                tools:text="Clear sky"/>
 
             <TextView
                 android:id="@+id/tv_temperature"
@@ -42,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:padding="16dp"
                 android:textSize="55sp"
                 android:textStyle="bold"
                 tools:text="20°C"/>
@@ -51,10 +60,10 @@
                 android:id="@+id/tv_pressure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_weather_description"
                 android:layout_marginTop="50dp"
-                android:layout_below="@id/tv_current_day"
-                android:padding="8dp"
-                android:textSize="15sp"
+                android:padding="4dp"
+                android:textSize="12sp"
                 tools:text="1000 hPa"/>
 
             <TextView
@@ -62,17 +71,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_pressure"
-                android:padding="8dp"
-                android:textSize="15sp"
-                tools:text="20 km/h"/>
+                android:padding="4dp"
+                android:textSize="12sp"
+                tools:text="2 km/h"/>
 
             <TextView
                 android:id="@+id/tv_minimum_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_wind_speed"
-                android:padding="8dp"
-                android:textSize="15sp"
+                android:padding="4dp"
+                android:textSize="12sp"
                 tools:text="Min: 15°C"/>
 
             <TextView
@@ -80,9 +89,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_minimum_temperature"
-                android:padding="8dp"
-                android:textSize="15sp"
+                android:padding="4dp"
+                android:textSize="12sp"
                 tools:text="Max: 25°C"/>
+
+            <TextView
+                android:id="@+id/tv_weather_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:padding="4dp"
+                android:textSize="12sp"
+                tools:text="Last updated: 3 min. ago"/>
 
             <ImageView
                 android:id="@+id/iv_current_weather_state"

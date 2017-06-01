@@ -9,7 +9,6 @@ public class CurrentWeatherResponse {
     @SerializedName("main") private WeatherDetails weatherDetails;
     @SerializedName("visibility") private int visibility;
     @SerializedName("wind") private Wind wind;
-    @SerializedName("dt") private long dateInMillis;
     @SerializedName("sys") private WeatherSys searchMetaData;
     @SerializedName("id") private long id;
     @SerializedName("name") private String cityName;
@@ -29,10 +28,6 @@ public class CurrentWeatherResponse {
 
     public Wind getWind() {
         return wind;
-    }
-
-    public long getDateInMillis() {
-        return dateInMillis;
     }
 
     public WeatherSys getSearchMetaData() {
