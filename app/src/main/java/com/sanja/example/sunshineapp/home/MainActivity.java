@@ -1,6 +1,8 @@
 package com.sanja.example.sunshineapp.home;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,6 +11,7 @@ import com.sanja.example.sunshineapp.home.di.components.AppComponent;
 import com.sanja.example.sunshineapp.home.di.components.DaggerHomeComponent;
 import com.sanja.example.sunshineapp.home.di.components.HomeComponent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,6 +32,10 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
     @BindView(R.id.tv_maximum_temperature) TextView maxTemperature;
     @BindView(R.id.tv_weather_update) TextView weatherUpdate;
     @BindView(R.id.iv_current_weather_state) ImageView currentWeatherState;
+    @BindView(R.id.rv_forecast) RecyclerView rvForecast;
+
+    private ForecastAdapter forecastAdapter;
+    private List<Forecast> forecast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +43,24 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        // BRENČAJ SE!!!
+        forecast = new ArrayList<>();
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+        forecast.add(new Forecast("SUN", "30"));
+
+        rvForecast.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        forecastAdapter = new ForecastAdapter();
+        rvForecast.setAdapter(forecastAdapter);
+        forecastAdapter.refreshForecast(forecast);
+
         presenter.bind(this);
     }
 
