@@ -10,9 +10,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 
-public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements HomeMVP.Presenter{
+public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements HomeMVP.Presenter {
     private static final String MOCK_CITY_NAME = "Zagreb";
     private static final String UNIT = "metric";
 
@@ -25,16 +26,15 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     @Override
     protected void onBind() {
         super.onBind();
-        refreshWeather(MOCK_CITY_NAME, UNIT, Constants.API_KEY);
+        refreshCurrentWeather(MOCK_CITY_NAME, UNIT, Constants.API_KEY);
+        refreshForecastWeather(MOCK_CITY_NAME, UNIT, 11, Constants.API_KEY);
     }
 
-    private void refreshWeather(String cityName, String unit, String apiKey) {
+    private void refreshCurrentWeather(String cityName, String unit, String apiKey) {
         apiService.getCurrentWeather(cityName, unit, apiKey).enqueue(new Callback<CurrentWeatherResponse>() {
             @Override
             public void onResponse(Call<CurrentWeatherResponse> call, Response<CurrentWeatherResponse> response) {
-                if(response.isSuccessful()) {
-                    handleRefreshSuccess(response.body());
-                }
+                handleRefreshSuccessForCurrentWeather(response.body());
             }
 
             @Override
@@ -44,12 +44,29 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
         });
     }
 
-    private void handleRefreshSuccess(CurrentWeatherResponse response){
+    private void refreshForecastWeather(String cityName, String unit, int count, String apiKey) {
+        apiService.getForecastWeather(cityName, unit, count, apiKey).enqueue(new Callback<ForecastWeatherResponse>() {
+            @Override
+            public void onResponse(Call<ForecastWeatherResponse> call, Response<ForecastWeatherResponse> response) {
+                handleRefreshSuccessForecastWeather(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ForecastWeatherResponse> call, Throwable t) {
+            }
+        });
+    }
+
+    private void handleRefreshSuccessForCurrentWeather(CurrentWeatherResponse response) {
         String cityName = response.getCityName();
         String date = Utils.getCurrentDate();
         List<WeatherDescription> weatherDescription = response.getWeatherDescription();
         WeatherDetails weatherDetails = response.getWeatherDetails();
         double windSpeed = response.getWind().getSpeed();
         view().refreshCurrentWeatherUI(cityName, date, weatherDescription, weatherDetails, windSpeed);
+    }
+
+    private void handleRefreshSuccessForecastWeather(ForecastWeatherResponse response) {
+        view().refreshForecastWeather(response.getForecasts());
     }
 }

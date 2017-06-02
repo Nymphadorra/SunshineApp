@@ -1,19 +1,23 @@
 package com.sanja.example.sunshineapp.home;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class Forecast {
-    private String day;
-    private String temperature;
+    @SerializedName("dt") private long date;
+    @SerializedName("temp") private ForecastTemperature forecastTemperature;
+    @SerializedName("weather") private List<WeatherDescription> weatherDescription;
 
-    public Forecast(String day, String temperature) {
-        this.day = day;
-        this.temperature = temperature;
+    public long getDate() {
+        return date;
     }
 
-    public String getDay() {
-        return day;
+    public ForecastTemperature getForecastTemperature() {
+        return forecastTemperature;
     }
 
-    public String getTemperature() {
-        return temperature;
+    public List<WeatherDescription> getWeatherDescription() {
+        return weatherDescription;
     }
 }

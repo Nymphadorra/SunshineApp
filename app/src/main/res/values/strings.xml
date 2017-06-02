@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SunshineApp</string>
+
+    <!-- Toolbar titles -->
+    <string name="toolbar_title_main">Sunshine</string>
+    <string name="toolbar_title_details">Details</string>
 </resources>

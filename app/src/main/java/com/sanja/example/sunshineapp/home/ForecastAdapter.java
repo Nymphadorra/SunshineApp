@@ -8,18 +8,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sanja.example.sunshineapp.R;
+import com.sanja.example.sunshineapp.home.utils.constants.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
-public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder>{
-    private final List<Forecast> forecast;
+public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder> {
+    private final List<Forecast> forecasts;
 
     public ForecastAdapter() {
-        this.forecast = new ArrayList<>();
+        this.forecasts = new ArrayList<>();
     }
 
     @Override
@@ -31,22 +33,24 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     @Override
     public void onBindViewHolder(ForecastAdapterViewHolder holder, int position) {
-        holder.tvForecastDay.setText("SUN");
-        holder.tvForecastTemperature.setText("30 °C");
+        Forecast forecast = forecasts.get(position);
+        holder.tvForecastDay.setText(Utils.formatDate(forecast.getDate()));
+        holder.tvForecastTemperature.setText(String.valueOf(forecast.getForecastTemperature().getTemperature()));
     }
 
     @Override
     public int getItemCount() {
-        return forecast.size();
+        return forecasts.size();
     }
 
-    public void refreshForecast(List<Forecast> forecast){
-        this.forecast.clear();
-        this.forecast.addAll(forecast);
+    public void refreshForecast(List<Forecast> forecasts) {
+        this.forecasts.clear();
+        this.forecasts.addAll(forecasts);
+        this.forecasts.remove(0);
         notifyDataSetChanged();
     }
 
-    class ForecastAdapterViewHolder extends RecyclerView.ViewHolder{
+    class ForecastAdapterViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_forecast_state) ImageView ivForecastState;
         @BindView(R.id.tv_forecast_day) TextView tvForecastDay;
         @BindView(R.id.tv_forecast_temperature) TextView tvForecastTemperature;

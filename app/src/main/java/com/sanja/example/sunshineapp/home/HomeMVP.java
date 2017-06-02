@@ -11,6 +11,8 @@ public interface HomeMVP {
                                      List<WeatherDescription> weatherDescription,
                                      WeatherDetails weatherDetails,
                                      double windSpeed);
+
+        void refreshForecastWeather(List<Forecast> forecasts);
     }
 
     interface Presenter extends BasePresenter<View> {

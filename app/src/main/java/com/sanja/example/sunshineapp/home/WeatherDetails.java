@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class WeatherDetails {
     @SerializedName("temp") private double temperature;
-    @SerializedName("pressure") private int pressure;
+    @SerializedName("tvPressure") private int pressure;
     @SerializedName("humidity") private int humidity;
     @SerializedName("temp_min") private int minTemp;
     @SerializedName("temp_max") private int maxTemp;
