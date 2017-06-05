@@ -44,4 +44,8 @@ public abstract class BaseActivity extends AppCompatActivity{
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
     }
 
+    protected void showToast(@StringRes int stringResId) {
+        showToast(getString(stringResId));
+    }
+
 }

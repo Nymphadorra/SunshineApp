@@ -16,5 +16,12 @@ public interface HomeMVP {
     }
 
     interface Presenter extends BasePresenter<View> {
+        void onSearchLocationClicked();
+
+        void onRefreshClicked();
+
+        void onSettingsClicked();
+
+        void onShareClicked();
     }
 }

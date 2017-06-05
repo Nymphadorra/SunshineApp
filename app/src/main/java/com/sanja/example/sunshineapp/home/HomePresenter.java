@@ -26,8 +26,27 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     @Override
     protected void onBind() {
         super.onBind();
-        refreshCurrentWeather(MOCK_CITY_NAME, UNIT, Constants.API_KEY);
-        refreshForecastWeather(MOCK_CITY_NAME, UNIT, 11, Constants.API_KEY);
+        refreshWeather();
+    }
+
+    @Override
+    public void onSearchLocationClicked() {
+
+    }
+
+    @Override
+    public void onRefreshClicked() {
+        refreshWeather();
+    }
+
+    @Override
+    public void onSettingsClicked() {
+
+    }
+
+    @Override
+    public void onShareClicked() {
+
     }
 
     private void refreshCurrentWeather(String cityName, String unit, String apiKey) {
@@ -42,6 +61,11 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
             }
         });
+    }
+
+    private void refreshWeather(){
+        refreshCurrentWeather(MOCK_CITY_NAME, UNIT, Constants.API_KEY);
+        refreshForecastWeather(MOCK_CITY_NAME, UNIT, 11, Constants.API_KEY);
     }
 
     private void refreshForecastWeather(String cityName, String unit, int count, String apiKey) {

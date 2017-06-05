@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,6 +62,33 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
                 .appComponent(appComponent)
                 .build();
         homeComponent.inject(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case(R.id.menu_item_search_locations):
+                presenter.onSearchLocationClicked();
+                return true;
+            case(R.id.menu_item_refresh):
+                presenter.onRefreshClicked();
+                showToast(R.string.msg_refreshed);
+                return true;
+            case(R.id.menu_item_settings):
+                presenter.onSettingsClicked();
+                return true;
+            case(R.id.menu_item_share):
+                presenter.onShareClicked();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override
