@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0a1b7c</color>
-    <color name="colorPrimaryDark">#020936</color>
-    <color name="colorAccent">#e97ba0</color>
+    <color name="colorPrimary">#0f1954</color>
+    <color name="colorPrimaryDark">#020831</color>
+    <color name="colorAccent">#d4b31e</color>
 
     <!-- Toolbar -->
     <color name="colorToolbarTitle">#ffffff</color>
+    <color name="colorSearchHint">#90ffffff</color>
 
-    <!-- Weather layouts -->
-    <color name="currentWeatherLayout">#3189b4</color>
-    <color name="forecastWeatherLayout">#21607e</color>
+    <!-- Weather layout -->
+    <color name="currentWeatherLayout">#40b1e7</color>
+    <color name="forecastWeatherLayout">#18743a</color>
+    <color name="currentDetails">#99FFFFFF</color>
 </resources>

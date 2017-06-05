@@ -1,16 +1,17 @@
 package com.sanja.example.sunshineapp.home;
 
-import com.sanja.example.sunshineapp.home.core.api.APIService;
-import com.sanja.example.sunshineapp.home.core.api.mvp.AbstractPresenter;
-import com.sanja.example.sunshineapp.home.utils.constants.Constants;
-import com.sanja.example.sunshineapp.home.utils.constants.Utils;
-
-import java.util.List;
+import com.sanja.example.sunshineapp.CurrentWeatherResponse;
+import com.sanja.example.sunshineapp.ForecastWeatherResponse;
+import com.sanja.example.sunshineapp.WeatherDescription;
+import com.sanja.example.sunshineapp.WeatherDetails;
+import com.sanja.example.sunshineapp.core.api.APIService;
+import com.sanja.example.sunshineapp.core.mvp.AbstractPresenter;
+import com.sanja.example.sunshineapp.utils.Utils;
+import com.sanja.example.sunshineapp.utils.constants.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 
 public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements HomeMVP.Presenter {
@@ -84,7 +85,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     private void handleRefreshSuccessForCurrentWeather(CurrentWeatherResponse response) {
         String cityName = response.getCityName();
         String date = Utils.getCurrentDate();
-        List<WeatherDescription> weatherDescription = response.getWeatherDescription();
+        WeatherDescription weatherDescription = response.getWeatherDescription().get(0);
         WeatherDetails weatherDetails = response.getWeatherDetails();
         double windSpeed = response.getWind().getSpeed();
         view().refreshCurrentWeatherUI(cityName, date, weatherDescription, weatherDetails, windSpeed);

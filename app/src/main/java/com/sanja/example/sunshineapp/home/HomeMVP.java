@@ -1,6 +1,8 @@
 package com.sanja.example.sunshineapp.home;
 
-import com.sanja.example.sunshineapp.home.core.api.mvp.BasePresenter;
+import com.sanja.example.sunshineapp.Forecast;
+import com.sanja.example.sunshineapp.WeatherDescription;
+import com.sanja.example.sunshineapp.WeatherDetails;
 
 import java.util.List;
 
@@ -8,14 +10,14 @@ public interface HomeMVP {
     interface View {
         void refreshCurrentWeatherUI(String cityName,
                                      String date,
-                                     List<WeatherDescription> weatherDescription,
+                                     WeatherDescription weatherDescription,
                                      WeatherDetails weatherDetails,
                                      double windSpeed);
 
         void refreshForecastWeather(List<Forecast> forecasts);
     }
 
-    interface Presenter extends BasePresenter<View> {
+    interface Presenter extends com.sanja.example.sunshineapp.core.mvp.BasePresenter<View> {
         void onSearchLocationClicked();
 
         void onRefreshClicked();
