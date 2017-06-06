@@ -1,5 +1,6 @@
 package com.sanja.example.sunshineapp.home;
 
+import com.sanja.example.sunshineapp.WeatherManager;
 import com.sanja.example.sunshineapp.weather.CurrentWeatherResponse;
 import com.sanja.example.sunshineapp.weather.ForecastWeatherResponse;
 import com.sanja.example.sunshineapp.weather.WeatherDescription;
@@ -20,9 +21,11 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     private static final int MOCK_COUNT = 10;
 
     private final APIService apiService;
+    private final WeatherManager weatherManager;
 
-    public HomePresenter(APIService apiService) {
+    public HomePresenter(APIService apiService, WeatherManager weatherManager) {
         this.apiService = apiService;
+        this.weatherManager = weatherManager;
     }
 
     @Override
