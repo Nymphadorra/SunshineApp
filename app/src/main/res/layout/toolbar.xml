@@ -27,10 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
+            android:textCursorDrawable="@drawable/shape_cursor"
+            android:background="@null"
             android:hint="@string/toolbar_editText_hint"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/colorAccent"
+            android:textColor="@android:color/white"
             android:textColorHint="@color/colorSearchHint"
             android:visibility="gone"/>
     </RelativeLayout>

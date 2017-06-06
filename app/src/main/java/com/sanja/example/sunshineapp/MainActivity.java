@@ -8,10 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 import com.sanja.example.sunshineapp.di.components.AppComponent;
 import com.sanja.example.sunshineapp.di.components.DaggerHomeComponent;
@@ -31,11 +35,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements HomeMVP.View{
+public class MainActivity extends BaseActivity implements HomeMVP.View {
     @Inject HomeMVP.Presenter presenter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tv_toolbar_title) TextView tvToolbarTitle;
+    @BindView(R.id.view_animator) ViewAnimatorById viewAnimator;
     @BindView(R.id.et_search_location) EditText etSearchLocation;
     @BindView(R.id.tv_city) TextView tvCity;
     @BindView(R.id.tv_temperature) TextView tvCurrentTemperature;
@@ -59,6 +64,9 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setupToolbar(toolbar, R.string.toolbar_title_main, false);
+        setViewAnimatorAnimations(this, viewAnimator);
+
+        viewAnimator.setChild(R.id.pb_loading_spinner);
 
         rvForecast.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         forecastAdapter = new ForecastAdapter();
@@ -99,15 +107,16 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
             case (R.id.menu_item_refresh):
                 presenter.onRefreshClicked();
                 showToast(R.string.msg_refreshed);
+                viewAnimator.setChild(R.id.ll_manage_settings);
                 return true;
             case (R.id.menu_item_check):
-                if(isTextInputValid()) {
+                if (isTextInputValid()) {
                     presenter.onLocationSelected(textInput);
                     return true;
                 } else {
                     return false;
                 }
-            case(R.id.menu_item_close):
+            case (R.id.menu_item_close):
                 hideSearchBox();
             case (R.id.menu_item_settings):
                 presenter.onSettingsClicked();
@@ -121,10 +130,10 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
 
     @Override
     public void refreshCurrentWeather(String cityName,
-                                        String date,
-                                        WeatherDescription weatherDescription,
-                                        WeatherDetails weatherDetails,
-                                        double windSpeed) {
+                                      String date,
+                                      WeatherDescription weatherDescription,
+                                      WeatherDetails weatherDetails,
+                                      double windSpeed) {
         tvCity.setText(cityName);
         tvCurrentTemperature.setText(String.valueOf(weatherDetails.getTemperature()));
         tvCurrentDate.setText(date);
@@ -135,6 +144,8 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
         tvMaxTemperature.setText("Max: " + String.valueOf(weatherDetails.getMaxTemp()) + "°C");
         ivCurrentWeatherState.setImageResource(WeatherIconSelector.getIcon(weatherDescription.getIcon()));
         tvWeatherUpdate.setText("Last updated: Just now");
+
+        showCurrentWeatherLayout();
     }
 
     @Override
@@ -143,7 +154,7 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
     }
 
     @Override
-    public void showSearchBox(){
+    public void showSearchBox() {
         tvToolbarTitle.setVisibility(View.GONE);
         etSearchLocation.setVisibility(View.VISIBLE);
         etSearchLocation.requestFocus();
@@ -161,9 +172,25 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
         hideKeyboard();
     }
 
+    @OnClick(R.id.btn_manage_settings)
+    public void openSettingsActivity(){
+
+    }
+
     @OnClick(R.id.rl_current_weather)
-    public void onCurrentWeatherClicked(){
+    public void onCurrentWeatherClicked() {
         showToast("Details will open!");
+    }
+
+    private void setViewAnimatorAnimations(Context context, ViewAnimator va) {
+        Animation in = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right);
+        va.setInAnimation(in);
+        va.setOutAnimation(out);
+    }
+
+    private void showCurrentWeatherLayout(){
+        viewAnimator.setChild(R.id.ll_current_weather);
     }
 
     private void showKeyboard() {
@@ -177,9 +204,9 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
         imm.hideSoftInputFromWindow(etSearchLocation.getWindowToken(), 0);
     }
 
-    private boolean isTextInputValid(){
+    private boolean isTextInputValid() {
         textInput = etSearchLocation.getText().toString().trim();
-        if(textInput.isEmpty()){
+        if (textInput.isEmpty()) {
             showToast(R.string.msg_text_input_empty);
             return false;
         } else {
