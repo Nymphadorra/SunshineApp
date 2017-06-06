@@ -15,6 +15,18 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/menu_item_check"
+        android:icon="@drawable/ic_check_white"
+        android:title="@string/menu_item_refresh"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_item_close"
+        android:icon="@drawable/ic_close_white"
+        android:title="@string/menu_item_refresh"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/menu_item_settings"
         android:icon="@drawable/ic_settings_white"
         android:title="@string/menu_item_settings"

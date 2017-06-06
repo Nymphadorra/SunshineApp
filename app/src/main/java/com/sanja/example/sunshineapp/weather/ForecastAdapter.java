@@ -1,4 +1,4 @@
-package com.sanja.example.sunshineapp;
+package com.sanja.example.sunshineapp.weather;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sanja.example.sunshineapp.R;
 import com.sanja.example.sunshineapp.utils.Utils;
 
 import java.util.ArrayList;

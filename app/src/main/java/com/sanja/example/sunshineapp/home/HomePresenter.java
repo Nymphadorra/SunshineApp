@@ -1,9 +1,9 @@
 package com.sanja.example.sunshineapp.home;
 
-import com.sanja.example.sunshineapp.CurrentWeatherResponse;
-import com.sanja.example.sunshineapp.ForecastWeatherResponse;
-import com.sanja.example.sunshineapp.WeatherDescription;
-import com.sanja.example.sunshineapp.WeatherDetails;
+import com.sanja.example.sunshineapp.weather.CurrentWeatherResponse;
+import com.sanja.example.sunshineapp.weather.ForecastWeatherResponse;
+import com.sanja.example.sunshineapp.weather.WeatherDescription;
+import com.sanja.example.sunshineapp.weather.WeatherDetails;
 import com.sanja.example.sunshineapp.core.api.APIService;
 import com.sanja.example.sunshineapp.core.mvp.AbstractPresenter;
 import com.sanja.example.sunshineapp.utils.Utils;
@@ -17,6 +17,7 @@ import retrofit2.Response;
 public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements HomeMVP.Presenter {
     private static final String MOCK_CITY_NAME = "Zagreb";
     private static final String UNIT = "metric";
+    private static final int MOCK_COUNT = 10;
 
     private final APIService apiService;
 
@@ -27,17 +28,17 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     @Override
     protected void onBind() {
         super.onBind();
-        refreshWeather();
+        refreshWeather(MOCK_CITY_NAME, UNIT, Constants.API_KEY, MOCK_COUNT);
     }
 
     @Override
     public void onSearchLocationClicked() {
-
+        view().showSearchBox();
     }
 
     @Override
     public void onRefreshClicked() {
-        refreshWeather();
+        //refreshWeather();
     }
 
     @Override
@@ -48,6 +49,12 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     @Override
     public void onShareClicked() {
 
+    }
+
+    @Override
+    public void onLocationSelected(String selectedLocation) {
+        refreshWeather(selectedLocation, UNIT, Constants.API_KEY, MOCK_COUNT);
+        view().hideSearchBox();
     }
 
     private void refreshCurrentWeather(String cityName, String unit, String apiKey) {
@@ -64,9 +71,9 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
         });
     }
 
-    private void refreshWeather(){
-        refreshCurrentWeather(MOCK_CITY_NAME, UNIT, Constants.API_KEY);
-        refreshForecastWeather(MOCK_CITY_NAME, UNIT, 11, Constants.API_KEY);
+    private void refreshWeather(String cityName, String unit, String apiKey, int forecastCount){
+        refreshCurrentWeather(cityName, unit, apiKey);
+        refreshForecastWeather(cityName, unit, forecastCount, apiKey);
     }
 
     private void refreshForecastWeather(String cityName, String unit, int count, String apiKey) {
@@ -88,7 +95,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
         WeatherDescription weatherDescription = response.getWeatherDescription().get(0);
         WeatherDetails weatherDetails = response.getWeatherDetails();
         double windSpeed = response.getWind().getSpeed();
-        view().refreshCurrentWeatherUI(cityName, date, weatherDescription, weatherDetails, windSpeed);
+        view().refreshCurrentWeather(cityName, date, weatherDescription, weatherDetails, windSpeed);
     }
 
     private void handleRefreshSuccessForecastWeather(ForecastWeatherResponse response) {

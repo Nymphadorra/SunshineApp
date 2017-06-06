@@ -17,6 +17,11 @@ import com.sanja.example.sunshineapp.di.components.AppComponent;
 import com.sanja.example.sunshineapp.di.components.DaggerHomeComponent;
 import com.sanja.example.sunshineapp.di.components.HomeComponent;
 import com.sanja.example.sunshineapp.home.HomeMVP;
+import com.sanja.example.sunshineapp.weather.Forecast;
+import com.sanja.example.sunshineapp.weather.ForecastAdapter;
+import com.sanja.example.sunshineapp.weather.WeatherDescription;
+import com.sanja.example.sunshineapp.weather.WeatherDetails;
+import com.sanja.example.sunshineapp.weather.WeatherIconSelector;
 
 import java.util.List;
 
@@ -44,7 +49,9 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
     @BindView(R.id.iv_current_weather_state) ImageView ivCurrentWeatherState;
     @BindView(R.id.rv_forecast) RecyclerView rvForecast;
 
+    private boolean editTextFocused = false;
     private ForecastAdapter forecastAdapter;
+    private String textInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,29 +82,45 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.menu_item_search_locations).setVisible(!editTextFocused);
+        menu.findItem(R.id.menu_item_refresh).setVisible(!editTextFocused);
+        menu.findItem(R.id.menu_item_check).setVisible(editTextFocused);
+        menu.findItem(R.id.menu_item_close).setVisible(editTextFocused);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case(R.id.menu_item_search_locations):
+            case (R.id.menu_item_search_locations):
                 presenter.onSearchLocationClicked();
-                showSearchBox();
                 return true;
-            case(R.id.menu_item_refresh):
+            case (R.id.menu_item_refresh):
                 presenter.onRefreshClicked();
                 showToast(R.string.msg_refreshed);
                 return true;
-            case(R.id.menu_item_settings):
+            case (R.id.menu_item_check):
+                if(isTextInputValid()) {
+                    presenter.onLocationSelected(textInput);
+                    return true;
+                } else {
+                    return false;
+                }
+            case(R.id.menu_item_close):
+                hideSearchBox();
+            case (R.id.menu_item_settings):
                 presenter.onSettingsClicked();
                 return true;
-            case(R.id.menu_item_share):
+            case (R.id.menu_item_share):
                 presenter.onShareClicked();
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @Override
-    public void refreshCurrentWeatherUI(String cityName,
+    public void refreshCurrentWeather(String cityName,
                                         String date,
                                         WeatherDescription weatherDescription,
                                         WeatherDetails weatherDetails,
@@ -119,21 +142,48 @@ public class MainActivity extends BaseActivity implements HomeMVP.View{
         forecastAdapter.refreshForecast(forecasts);
     }
 
-    @OnClick(R.id.rl_current_weather)
-    public void onCurrentWeatherClicked(){
-        showToast("Details will open!");
-    }
-
-    private void showSearchBox(){
+    @Override
+    public void showSearchBox(){
         tvToolbarTitle.setVisibility(View.GONE);
         etSearchLocation.setVisibility(View.VISIBLE);
         etSearchLocation.requestFocus();
+        editTextFocused = true;
+        invalidateOptionsMenu();
         showKeyboard();
+    }
+
+    @Override
+    public void hideSearchBox() {
+        etSearchLocation.setVisibility(View.GONE);
+        tvToolbarTitle.setVisibility(View.VISIBLE);
+        editTextFocused = false;
+        invalidateOptionsMenu();
+        hideKeyboard();
+    }
+
+    @OnClick(R.id.rl_current_weather)
+    public void onCurrentWeatherClicked(){
+        showToast("Details will open!");
     }
 
     private void showKeyboard() {
         final InputMethodManager inputMethodManager = (InputMethodManager) this
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(etSearchLocation, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etSearchLocation.getWindowToken(), 0);
+    }
+
+    private boolean isTextInputValid(){
+        textInput = etSearchLocation.getText().toString().trim();
+        if(textInput.isEmpty()){
+            showToast(R.string.msg_text_input_empty);
+            return false;
+        } else {
+            return true;
+        }
     }
 }

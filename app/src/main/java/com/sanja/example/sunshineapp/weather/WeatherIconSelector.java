@@ -1,4 +1,6 @@
-package com.sanja.example.sunshineapp;
+package com.sanja.example.sunshineapp.weather;
+
+import com.sanja.example.sunshineapp.R;
 
 public class WeatherIconSelector {
 

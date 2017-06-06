@@ -1,4 +1,4 @@
-package com.sanja.example.sunshineapp;
+package com.sanja.example.sunshineapp.weather;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,7 +1,7 @@
 package com.sanja.example.sunshineapp.core.api;
 
-import com.sanja.example.sunshineapp.CurrentWeatherResponse;
-import com.sanja.example.sunshineapp.ForecastWeatherResponse;
+import com.sanja.example.sunshineapp.weather.CurrentWeatherResponse;
+import com.sanja.example.sunshineapp.weather.ForecastWeatherResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
