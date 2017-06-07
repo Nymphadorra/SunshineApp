@@ -1,5 +1,6 @@
 package com.sanja.example.sunshineapp.home;
 
+import com.sanja.example.sunshineapp.CurrentWeather;
 import com.sanja.example.sunshineapp.weather.Forecast;
 import com.sanja.example.sunshineapp.weather.WeatherDescription;
 import com.sanja.example.sunshineapp.weather.WeatherDetails;
@@ -9,17 +10,15 @@ import java.util.List;
 
 public interface HomeMVP {
     interface View {
-        void refreshCurrentWeather(String cityName,
-                                   String date,
-                                   WeatherDescription weatherDescription,
-                                   WeatherDetails weatherDetails,
-                                   double windSpeed);
+        void refreshCurrentWeather(CurrentWeather currentWeather);
 
         void refreshForecastWeather(List<Forecast> forecasts);
 
         void showSearchBox();
 
         void hideSearchBox();
+
+        void startSettingsActivity();
     }
 
     interface Presenter extends BasePresenter<View> {

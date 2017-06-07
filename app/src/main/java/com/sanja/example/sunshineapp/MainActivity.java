@@ -129,20 +129,16 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
     }
 
     @Override
-    public void refreshCurrentWeather(String cityName,
-                                      String date,
-                                      WeatherDescription weatherDescription,
-                                      WeatherDetails weatherDetails,
-                                      double windSpeed) {
-        tvCity.setText(cityName);
-        tvCurrentTemperature.setText(String.valueOf(weatherDetails.getTemperature()));
-        tvCurrentDate.setText(date);
-        tvCurrentDescription.setText(weatherDescription.getDescription().toUpperCase());
-        tvPressure.setText("Pressure: " + String.valueOf(weatherDetails.getPressure()) + " hPa");
-        tvWindSpeed.setText("Wind: " + String.valueOf(windSpeed) + " km/h");
-        tvMinTemperature.setText("Min: " + String.valueOf(weatherDetails.getMinTemp()) + "°C");
-        tvMaxTemperature.setText("Max: " + String.valueOf(weatherDetails.getMaxTemp()) + "°C");
-        ivCurrentWeatherState.setImageResource(WeatherIconSelector.getIcon(weatherDescription.getIcon()));
+    public void refreshCurrentWeather(CurrentWeather currentWeather) {
+        tvCity.setText(currentWeather.getLocation());
+        tvCurrentTemperature.setText(String.valueOf(currentWeather.getWeatherDetails().getTemperature()));
+        tvCurrentDate.setText(currentWeather.getDate());
+        tvCurrentDescription.setText(currentWeather.getWeatherDescription().toUpperCase());
+        tvPressure.setText("Pressure: " + String.valueOf(currentWeather.getWeatherDetails().getPressure()) + " hPa");
+        tvWindSpeed.setText("Wind: " + String.valueOf(currentWeather.getWindSpeed()) + " km/h");
+        tvMinTemperature.setText("Min: " + String.valueOf(currentWeather.getWeatherDetails().getMinTemp()) + "°C");
+        tvMaxTemperature.setText("Max: " + String.valueOf(currentWeather.getWeatherDetails().getMaxTemp()) + "°C");
+        ivCurrentWeatherState.setImageResource(WeatherIconSelector.getIcon(currentWeather.getIcon()));
         tvWeatherUpdate.setText("Last updated: Just now");
 
         showCurrentWeatherLayout();
@@ -172,8 +168,13 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
         hideKeyboard();
     }
 
+    @Override
+    public void startSettingsActivity() {
+
+    }
+
     @OnClick(R.id.btn_manage_settings)
-    public void openSettingsActivity(){
+    public void startSettingsActivityTODO(){
 
     }
 

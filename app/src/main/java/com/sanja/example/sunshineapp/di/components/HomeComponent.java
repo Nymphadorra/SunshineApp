@@ -11,6 +11,5 @@ import dagger.Component;
         modules = HomeModule.class,
         dependencies = AppComponent.class)
 public interface HomeComponent {
-
     void inject(MainActivity mainActivity);
 }

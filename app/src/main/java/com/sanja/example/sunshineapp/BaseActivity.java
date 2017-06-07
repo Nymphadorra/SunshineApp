@@ -1,5 +1,6 @@
 package com.sanja.example.sunshineapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,4 +48,29 @@ public abstract class BaseActivity extends AppCompatActivity{
         showToast(getString(stringResId));
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransitionExit();
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransitionEnter();
+    }
+
+    /**
+     * Overrides the pending Activity transition by performing the "Enter" animation.
+     */
+    protected void overridePendingTransitionEnter() {
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+    }
+
+    /**
+     * Overrides the pending Activity transition by performing the "Exit" animation.
+     */
+    protected void overridePendingTransitionExit() {
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+    }
 }

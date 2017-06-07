@@ -1,5 +1,6 @@
 package com.sanja.example.sunshineapp.home;
 
+import com.sanja.example.sunshineapp.CurrentWeather;
 import com.sanja.example.sunshineapp.WeatherManager;
 import com.sanja.example.sunshineapp.weather.CurrentWeatherResponse;
 import com.sanja.example.sunshineapp.weather.ForecastWeatherResponse;
@@ -22,6 +23,9 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
     private final APIService apiService;
     private final WeatherManager weatherManager;
+    private String selectedLocation;
+    private String selectedUnit;
+    private int selectedForecastCount;
 
     public HomePresenter(APIService apiService, WeatherManager weatherManager) {
         this.apiService = apiService;
@@ -31,6 +35,9 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     @Override
     protected void onBind() {
         super.onBind();
+        selectedLocation = weatherManager.getLocation();
+        selectedUnit = weatherManager.getUnit();
+        selectedForecastCount = weatherManager.getForecastCount();
         refreshWeather(MOCK_CITY_NAME, UNIT, Constants.API_KEY, MOCK_COUNT);
     }
 
@@ -46,7 +53,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
     @Override
     public void onSettingsClicked() {
-
+        view().startSettingsActivity();
     }
 
     @Override
@@ -58,6 +65,11 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     public void onLocationSelected(String selectedLocation) {
         refreshWeather(selectedLocation, UNIT, Constants.API_KEY, MOCK_COUNT);
         view().hideSearchBox();
+    }
+
+    private void refreshWeather(String cityName, String unit, String apiKey, int forecastCount){
+        refreshCurrentWeather(cityName, unit, apiKey);
+        refreshForecastWeather(cityName, unit, forecastCount, apiKey);
     }
 
     private void refreshCurrentWeather(String cityName, String unit, String apiKey) {
@@ -74,11 +86,6 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
         });
     }
 
-    private void refreshWeather(String cityName, String unit, String apiKey, int forecastCount){
-        refreshCurrentWeather(cityName, unit, apiKey);
-        refreshForecastWeather(cityName, unit, forecastCount, apiKey);
-    }
-
     private void refreshForecastWeather(String cityName, String unit, int count, String apiKey) {
         apiService.getForecastWeather(cityName, unit, count, apiKey).enqueue(new Callback<ForecastWeatherResponse>() {
             @Override
@@ -93,12 +100,19 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     }
 
     private void handleRefreshSuccessForCurrentWeather(CurrentWeatherResponse response) {
-        String cityName = response.getCityName();
+        String location = response.getCityName();
         String date = Utils.getCurrentDate();
         WeatherDescription weatherDescription = response.getWeatherDescription().get(0);
         WeatherDetails weatherDetails = response.getWeatherDetails();
         double windSpeed = response.getWind().getSpeed();
-        view().refreshCurrentWeather(cityName, date, weatherDescription, weatherDetails, windSpeed);
+        CurrentWeather currentWeather = new CurrentWeather(
+                location,
+                date,
+                weatherDescription.getDescription(),
+                weatherDescription.getIcon(),
+                response.getWeatherDetails(),
+                windSpeed);
+        view().refreshCurrentWeather(currentWeather);
     }
 
     private void handleRefreshSuccessForecastWeather(ForecastWeatherResponse response) {
