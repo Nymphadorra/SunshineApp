@@ -10,4 +10,10 @@
 
     <include layout="@layout/toolbar"/>
 
+    <fragment
+        android:name="com.sanja.example.sunshineapp.SettingsFragment"
+        android:id="@+id/settings_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

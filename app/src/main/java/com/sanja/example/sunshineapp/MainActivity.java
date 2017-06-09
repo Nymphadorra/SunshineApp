@@ -1,6 +1,7 @@
 package com.sanja.example.sunshineapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,10 +21,9 @@ import com.sanja.example.sunshineapp.di.components.AppComponent;
 import com.sanja.example.sunshineapp.di.components.DaggerHomeComponent;
 import com.sanja.example.sunshineapp.di.components.HomeComponent;
 import com.sanja.example.sunshineapp.home.HomeMVP;
+import com.sanja.example.sunshineapp.settings.SettingsActivity;
 import com.sanja.example.sunshineapp.weather.Forecast;
 import com.sanja.example.sunshineapp.weather.ForecastAdapter;
-import com.sanja.example.sunshineapp.weather.WeatherDescription;
-import com.sanja.example.sunshineapp.weather.WeatherDetails;
 import com.sanja.example.sunshineapp.weather.WeatherIconSelector;
 
 import java.util.List;
@@ -118,11 +117,13 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
                 }
             case (R.id.menu_item_close):
                 hideSearchBox();
+                return true;
             case (R.id.menu_item_settings):
                 presenter.onSettingsClicked();
                 return true;
             case (R.id.menu_item_share):
                 presenter.onShareClicked();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -134,10 +135,10 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
         tvCurrentTemperature.setText(String.valueOf(currentWeather.getWeatherDetails().getTemperature()));
         tvCurrentDate.setText(currentWeather.getDate());
         tvCurrentDescription.setText(currentWeather.getWeatherDescription().toUpperCase());
-        tvPressure.setText("Pressure: " + String.valueOf(currentWeather.getWeatherDetails().getPressure()) + " hPa");
-        tvWindSpeed.setText("Wind: " + String.valueOf(currentWeather.getWindSpeed()) + " km/h");
-        tvMinTemperature.setText("Min: " + String.valueOf(currentWeather.getWeatherDetails().getMinTemp()) + "°C");
-        tvMaxTemperature.setText("Max: " + String.valueOf(currentWeather.getWeatherDetails().getMaxTemp()) + "°C");
+        tvPressure.setText(getString(R.string.current_pressure,String.valueOf(currentWeather.getWeatherDetails().getPressure())));
+        tvWindSpeed.setText(getString(R.string.current_wind, String.valueOf(currentWeather.getWindSpeed())));
+        tvMinTemperature.setText(getString(R.string.current_min_temp, String.valueOf(currentWeather.getWeatherDetails().getMinTemp())));
+        tvMaxTemperature.setText(getString(R.string.current_max_temp, String.valueOf(currentWeather.getWeatherDetails().getMaxTemp())));
         ivCurrentWeatherState.setImageResource(WeatherIconSelector.getIcon(currentWeather.getIcon()));
         tvWeatherUpdate.setText("Last updated: Just now");
 
@@ -170,7 +171,8 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
 
     @Override
     public void startSettingsActivity() {
-
+        Intent i = new Intent(this, SettingsActivity.class);
+        startActivity(i);
     }
 
     @OnClick(R.id.btn_manage_settings)
