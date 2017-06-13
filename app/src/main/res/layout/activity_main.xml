@@ -27,6 +27,8 @@
 
         <include layout="@layout/empty_settings"/>
 
+        <include layout="@layout/network_error"/>
+
     </com.sanja.example.sunshineapp.ViewAnimatorById>
 
 </LinearLayout>

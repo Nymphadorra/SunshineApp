@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textColor="@color/colorToolbarTitle"
+            android:textColor="@color/color_toolbar_title"
             android:textSize="20sp"
             tools:text="Toolbar Title"/>
 
@@ -33,7 +33,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@android:color/white"
-            android:textColorHint="@color/colorSearchHint"
+            android:textColorHint="@color/color_search_hint"
             android:visibility="gone"/>
     </RelativeLayout>
 

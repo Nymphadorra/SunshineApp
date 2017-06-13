@@ -90,7 +90,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
             @Override
             public void onFailure(Call<CurrentWeatherResponse> call, Throwable t) {
-                // TODO:
+                handleRefreshFailure();
             }
         });
     }
@@ -104,7 +104,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
             @Override
             public void onFailure(Call<ForecastWeatherResponse> call, Throwable t) {
-                // TODO:
+                handleRefreshFailure();
             }
         });
     }
@@ -127,6 +127,10 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
     private void handleRefreshSuccessForecastWeather(ForecastWeatherResponse response) {
         view().refreshForecastWeather(response.getForecasts());
+    }
+
+    private void handleRefreshFailure() {
+        view().showNetworkError();
     }
 
     private void getPreferenceData(){

@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/ll_empty_settings"
+              android:id="@+id/ll_network_error"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/network_error"
               android:orientation="vertical"
               android:padding="16dp">
 
     <ImageView
-        android:id="@+id/iv_manage_settings"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:layout_margin="4dp"
-        android:scaleType="center"
-        android:background="@drawable/manage_settings_image_background"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_manage_settings"/>
+        android:src="@drawable/ic_cloud_off"/>
 
     <TextView
-        android:id="@+id/tv_manage_settings"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="8dp"
         android:background="@drawable/manage_settings_text_background"
-        android:padding="10dp"
+        android:gravity="center"
+        android:text="@string/msg_network_error"
         android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:text="@string/msg_manage_settings"/>
+        android:textStyle="bold"/>
 
     <Button
-        android:id="@+id/btn_manage_settings"
+        android:id="@+id/btn_reconnect"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
-        android:padding="25dp"
         android:layout_height="wrap_content"
-        android:text="@string/btn_manage_settings"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:padding="25dp"
+        android:text="@string/btn_reconnect"/>
 
 </LinearLayout>

@@ -41,6 +41,11 @@
 
     <!-- Empty settings -->
     <string name="msg_manage_settings">In order to check current weather in your favourite place, please manage your settings first!</string>
-    <string name="manage_settings">Let\'s get started!</string>
+    <string name="btn_manage_settings">Let\'s get started!</string>
+
+    <!-- Network error -->
+    <string name="msg_network_error">Something went wrong! Please, check your network connection and try again!</string>
+    <string name="btn_reconnect">Reconnect</string>
+
 
 </resources>

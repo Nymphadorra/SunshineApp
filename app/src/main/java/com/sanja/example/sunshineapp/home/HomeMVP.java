@@ -21,6 +21,8 @@ public interface HomeMVP {
         void startSettingsActivity();
 
         void showEmptySettingsScreen();
+
+        void showNetworkError();
     }
 
     interface Presenter extends BasePresenter<View> {

@@ -16,7 +16,7 @@
     </style> -->
 
     <style name="ActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/colorToolbarTitle</item>
+        <item name="colorControlNormal">@color/color_toolbar_title</item>
     </style>
 
 </resources>

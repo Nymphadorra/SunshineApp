@@ -195,6 +195,11 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
         viewAnimator.setChild(R.id.ll_empty_settings);
     }
 
+    @Override
+    public void showNetworkError() {
+        viewAnimator.setChild(R.id.ll_network_error);
+    }
+
     @OnClick(R.id.btn_manage_settings)
     public void startSettingsActivityTODO() {
 
