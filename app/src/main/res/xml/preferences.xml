@@ -3,12 +3,12 @@
 
     <EditTextPreference
         android:inputType="text"
-        android:key="@string/pref_key_location"
+        android:key="@string/pref_key_default_location"
         android:singleLine="true"
         android:title="@string/pref_label_location"/>
 
     <ListPreference
-        android:defaultValue="@string/pref_unit_default"
+        android:defaultValue="@string/pref_unit_metric"
         android:entries="@array/pref_units_options"
         android:entryValues="@array/pref_units_values"
         android:key="@string/pref_key_unit"

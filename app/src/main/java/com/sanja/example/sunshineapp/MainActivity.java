@@ -1,8 +1,10 @@
 package com.sanja.example.sunshineapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +37,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements HomeMVP.View {
+    private static final int REQUEST_CODE_SETTINGS = 10;
+
     @Inject HomeMVP.Presenter presenter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -55,7 +59,7 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
 
     private boolean editTextFocused = false;
     private ForecastAdapter forecastAdapter;
-    private String textInput;
+    private String textInputLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,8 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
         rvForecast.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         forecastAdapter = new ForecastAdapter();
         rvForecast.setAdapter(forecastAdapter);
+
+        initializeDefaultSettings();
 
         presenter.bind(this);
     }
@@ -106,11 +112,10 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
             case (R.id.menu_item_refresh):
                 presenter.onRefreshClicked();
                 showToast(R.string.msg_refreshed);
-                viewAnimator.setChild(R.id.ll_manage_settings);
                 return true;
             case (R.id.menu_item_check):
                 if (isTextInputValid()) {
-                    presenter.onLocationSelected(textInput);
+                    presenter.onLocationSelected(textInputLocation);
                     return true;
                 } else {
                     return false;
@@ -135,7 +140,7 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
         tvCurrentTemperature.setText(String.valueOf(currentWeather.getWeatherDetails().getTemperature()));
         tvCurrentDate.setText(currentWeather.getDate());
         tvCurrentDescription.setText(currentWeather.getWeatherDescription().toUpperCase());
-        tvPressure.setText(getString(R.string.current_pressure,String.valueOf(currentWeather.getWeatherDetails().getPressure())));
+        tvPressure.setText(getString(R.string.current_pressure, String.valueOf(currentWeather.getWeatherDetails().getPressure())));
         tvWindSpeed.setText(getString(R.string.current_wind, String.valueOf(currentWeather.getWindSpeed())));
         tvMinTemperature.setText(getString(R.string.current_min_temp, String.valueOf(currentWeather.getWeatherDetails().getMinTemp())));
         tvMaxTemperature.setText(getString(R.string.current_max_temp, String.valueOf(currentWeather.getWeatherDetails().getMaxTemp())));
@@ -172,11 +177,26 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
     @Override
     public void startSettingsActivity() {
         Intent i = new Intent(this, SettingsActivity.class);
-        startActivity(i);
+        startActivityForResult(i, REQUEST_CODE_SETTINGS);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                presenter.onSettingsActivityFinished();
+            }
+        }
+    }
+
+    @Override
+    public void showEmptySettingsScreen() {
+        viewAnimator.setChild(R.id.ll_empty_settings);
     }
 
     @OnClick(R.id.btn_manage_settings)
-    public void startSettingsActivityTODO(){
+    public void startSettingsActivityTODO() {
 
     }
 
@@ -192,8 +212,12 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
         va.setOutAnimation(out);
     }
 
-    private void showCurrentWeatherLayout(){
+    private void showCurrentWeatherLayout() {
         viewAnimator.setChild(R.id.ll_current_weather);
+    }
+
+    private void initializeDefaultSettings() {
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     private void showKeyboard() {
@@ -208,8 +232,8 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
     }
 
     private boolean isTextInputValid() {
-        textInput = etSearchLocation.getText().toString().trim();
-        if (textInput.isEmpty()) {
+        textInputLocation = etSearchLocation.getText().toString().trim();
+        if (textInputLocation.isEmpty()) {
             showToast(R.string.msg_text_input_empty);
             return false;
         } else {

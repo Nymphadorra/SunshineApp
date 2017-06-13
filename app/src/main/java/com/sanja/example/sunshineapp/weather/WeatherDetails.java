@@ -6,8 +6,8 @@ public class WeatherDetails {
     @SerializedName("temp") private double temperature;
     @SerializedName("tvPressure") private int pressure;
     @SerializedName("humidity") private int humidity;
-    @SerializedName("temp_min") private int minTemp;
-    @SerializedName("temp_max") private int maxTemp;
+    @SerializedName("temp_min") private double minTemp;
+    @SerializedName("temp_max") private double maxTemp;
 
     public double getTemperature() {
         return temperature;
@@ -21,11 +21,11 @@ public class WeatherDetails {
         return humidity;
     }
 
-    public int getMinTemp() {
+    public double getMinTemp() {
         return minTemp;
     }
 
-    public int getMaxTemp() {
+    public double getMaxTemp() {
         return maxTemp;
     }
 }

@@ -20,20 +20,21 @@
     <!-- Settings -->
     <string name="toolbar_title_settings">Settings</string>
 
-    <string name="pref_key_location" translatable="false">Location</string>
+    <string name="pref_key_default_location" translatable="false">Default location</string>
     <string name="pref_key_unit" translatable="false">Unit</string>
     <string name="pref_key_forecast_count" translatable="false">Forecast count</string>
 
-    <string name="pref_label_location">Location</string>
+    <string name="pref_label_location">Default location</string>
     <string name="pref_label_unit">Temperature unit</string>
     <string name="pref_label_forecast_days">Forecast</string>
-    <string name="pref_label_unit_default">Kelvin</string>
+
+    <string name="pref_label_unit_kelvin">Kelvin</string>
     <string name="pref_label_unit_metric">Metric</string>
     <string name="pref_label_unit_imperial">Imperial</string>
 
-    <string name="pref_unit_default">kelvin</string>
-    <string name="pref_unit_metric">metric</string>
-    <string name="pref_unit_imperial">imperial</string>
+    <string name="pref_unit_kelvin">Kelvin</string>
+    <string name="pref_unit_metric">Metric</string>
+    <string name="pref_unit_imperial">Imperial</string>
 
     <!-- Details -->
     <string name="toolbar_title_details">Details</string>

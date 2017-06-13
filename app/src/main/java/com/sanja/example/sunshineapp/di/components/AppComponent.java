@@ -1,5 +1,7 @@
 package com.sanja.example.sunshineapp.di.components;
 
+import android.content.SharedPreferences;
+
 import com.sanja.example.sunshineapp.WeatherManager;
 import com.sanja.example.sunshineapp.core.api.APIService;
 import com.sanja.example.sunshineapp.di.modules.APIModule;
@@ -14,9 +16,12 @@ import dagger.Component;
 @AppScope
 @Component(modules = {MainModule.class, HomeModule.class, SettingsModule.class, APIModule.class, DataModule.class})
 public interface AppComponent {
+
     //We need to explicitly say what dependencies will be accessible to subcomponents.
 
     APIService apiService();
+
+    SharedPreferences sharedPreferences();
 
     WeatherManager weatherManager();
 }

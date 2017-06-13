@@ -19,6 +19,8 @@ public interface HomeMVP {
         void hideSearchBox();
 
         void startSettingsActivity();
+
+        void showEmptySettingsScreen();
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -31,5 +33,7 @@ public interface HomeMVP {
         void onShareClicked();
 
         void onLocationSelected(String selectedLocation);
+
+        void onSettingsActivityFinished();
     }
 }

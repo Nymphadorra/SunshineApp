@@ -1,7 +1,9 @@
 package com.sanja.example.sunshineapp.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.sanja.example.sunshineapp.BaseActivity;
 import com.sanja.example.sunshineapp.R;
@@ -15,7 +17,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SettingsActivity extends BaseActivity implements SettingsMVP.View{
+public class SettingsActivity extends BaseActivity implements
+        SettingsMVP.View{
     @Inject SettingsMVP.Presenter presenter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -31,6 +34,7 @@ public class SettingsActivity extends BaseActivity implements SettingsMVP.View{
                 .replace(R.id.settings_fragment, new SettingsFragment())
                 .commit();
 
+        presenter.bind(this);
     }
 
     @Override
@@ -41,5 +45,20 @@ public class SettingsActivity extends BaseActivity implements SettingsMVP.View{
         settingsComponent.inject(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                presenter.onBackClicked();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
+    @Override
+    public void setIntentResult() {
+        Intent i = new Intent();
+        setResult(RESULT_OK, i);
+    }
 }

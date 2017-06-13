@@ -3,9 +3,9 @@ package com.sanja.example.sunshineapp;
 import android.content.SharedPreferences;
 
 public class WeatherPreferences {
-    private static final String PREF_KEY_DEFAULT_LOCATION = "pref_key_default_location";
-    private static final String PREF_KEY_UNIT = "pref_key_unit";
-    private static final String PREF_KEY_FORECAST_COUNT = "pref_key_forecast_count";
+    private static final String PREF_KEY_DEFAULT_LOCATION = "Default location";
+    private static final String PREF_KEY_UNIT = "Unit";
+    private static final String PREF_KEY_FORECAST_COUNT = "Forecast count";
 
     private final SharedPreferences sharedPreferences;
 
@@ -39,7 +39,7 @@ public class WeatherPreferences {
     }
 
     public String getUnit(){
-        return sharedPreferences.getString(PREF_KEY_UNIT, "metric");
+        return sharedPreferences.getString(PREF_KEY_UNIT, "Metric");
     }
 
     public int getForecastCount(){

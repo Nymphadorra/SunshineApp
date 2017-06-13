@@ -1,5 +1,6 @@
 package com.sanja.example.sunshineapp.home;
 
+
 import com.sanja.example.sunshineapp.CurrentWeather;
 import com.sanja.example.sunshineapp.WeatherManager;
 import com.sanja.example.sunshineapp.weather.CurrentWeatherResponse;
@@ -15,7 +16,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements HomeMVP.Presenter {
     private static final String MOCK_CITY_NAME = "Zagreb";
     private static final String UNIT = "metric";
@@ -25,7 +25,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     private final WeatherManager weatherManager;
     private String selectedLocation;
     private String selectedUnit;
-    private int selectedForecastCount;
+    private int selectedForecastCount = 8;
 
     public HomePresenter(APIService apiService, WeatherManager weatherManager) {
         this.apiService = apiService;
@@ -35,10 +35,12 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     @Override
     protected void onBind() {
         super.onBind();
-        selectedLocation = weatherManager.getLocation();
-        selectedUnit = weatherManager.getUnit();
-        selectedForecastCount = weatherManager.getForecastCount();
-        refreshWeather(MOCK_CITY_NAME, UNIT, Constants.API_KEY, MOCK_COUNT);
+        if(weatherManager.getLocation().isEmpty()){
+            view().showEmptySettingsScreen();
+        } else {
+            getPreferenceData();
+            refreshWeather(selectedLocation, selectedUnit, Constants.API_KEY, selectedForecastCount);
+        }
     }
 
     @Override
@@ -48,7 +50,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
     @Override
     public void onRefreshClicked() {
-        //refreshWeather();
+        refreshWeather(selectedLocation, selectedUnit, Constants.API_KEY, selectedForecastCount);
     }
 
     @Override
@@ -63,13 +65,20 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
     @Override
     public void onLocationSelected(String selectedLocation) {
-        refreshWeather(selectedLocation, UNIT, Constants.API_KEY, MOCK_COUNT);
+        this.selectedLocation = selectedLocation;
+        refreshWeather(selectedLocation, selectedUnit, Constants.API_KEY, selectedForecastCount);
         view().hideSearchBox();
     }
 
-    private void refreshWeather(String cityName, String unit, String apiKey, int forecastCount){
-        refreshCurrentWeather(cityName, unit, apiKey);
-        refreshForecastWeather(cityName, unit, forecastCount, apiKey);
+    @Override
+    public void onSettingsActivityFinished() {
+        getPreferenceData();
+        refreshWeather(selectedLocation, selectedUnit, Constants.API_KEY, selectedForecastCount);
+    }
+
+    private void refreshWeather(String location, String unit, String apiKey, int forecastCount) {
+        refreshCurrentWeather(location, unit, apiKey);
+        refreshForecastWeather(location, unit, forecastCount, apiKey);
     }
 
     private void refreshCurrentWeather(String cityName, String unit, String apiKey) {
@@ -81,7 +90,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
             @Override
             public void onFailure(Call<CurrentWeatherResponse> call, Throwable t) {
-
+                // TODO:
             }
         });
     }
@@ -95,6 +104,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
             @Override
             public void onFailure(Call<ForecastWeatherResponse> call, Throwable t) {
+                // TODO:
             }
         });
     }
@@ -110,12 +120,18 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
                 date,
                 weatherDescription.getDescription(),
                 weatherDescription.getIcon(),
-                response.getWeatherDetails(),
+                weatherDetails,
                 windSpeed);
         view().refreshCurrentWeather(currentWeather);
     }
 
     private void handleRefreshSuccessForecastWeather(ForecastWeatherResponse response) {
         view().refreshForecastWeather(response.getForecasts());
+    }
+
+    private void getPreferenceData(){
+        selectedLocation = weatherManager.getLocation();
+        selectedUnit = weatherManager.getUnit();
+        // selectedForecastCount = weatherManager.getForecastCount();
     }
 }
