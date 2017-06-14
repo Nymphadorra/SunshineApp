@@ -38,6 +38,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements HomeMVP.View {
     private static final int REQUEST_CODE_SETTINGS = 10;
+    private static final String EXTRA_IS_CHANGE_MADE = "is_change_made";
 
     @Inject HomeMVP.Presenter presenter;
 
@@ -185,7 +186,7 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SETTINGS) {
             if (resultCode == RESULT_OK) {
-                presenter.onSettingsActivityFinished();
+                presenter.onSettingsActivityFinished(data.getBooleanExtra(EXTRA_IS_CHANGE_MADE, false));
             }
         }
     }

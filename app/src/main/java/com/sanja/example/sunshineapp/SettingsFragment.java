@@ -10,16 +10,27 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 
+import com.sanja.example.sunshineapp.di.components.AppComponent;
+import com.sanja.example.sunshineapp.di.components.AppComponentContainer;
+import com.sanja.example.sunshineapp.di.components.DaggerSettingsComponent;
+import com.sanja.example.sunshineapp.di.components.SettingsComponent;
+
+import javax.inject.Inject;
+
 public class SettingsFragment extends PreferenceFragment implements
         SharedPreferences.OnSharedPreferenceChangeListener {
+    @Inject WeatherManager weatherManager;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        injectDependencies(AppComponentContainer.get());
         addPreferencesFromResource(R.xml.preferences);
         PreferenceManager.setDefaultValues(getActivity(), R.xml.preferences, false);
 
-        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+        sharedPreferences = getPreferenceScreen().getSharedPreferences();
         PreferenceScreen prefScreen = getPreferenceScreen();
         int count = prefScreen.getPreferenceCount();
         for (int i = 0; i < count; i++) {
@@ -36,6 +47,7 @@ public class SettingsFragment extends PreferenceFragment implements
         super.onResume();
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
+        weatherManager.isChangeMade(false);
     }
 
     @Override
@@ -55,6 +67,14 @@ public class SettingsFragment extends PreferenceFragment implements
             Preference pref = findPreference(key);
             pref.setSummary(sharedPreferences.getString(key, ""));
         }
+        weatherManager.isChangeMade(true);
+    }
+
+    private void injectDependencies(AppComponent appComponent) {
+        SettingsComponent settingsComponent = DaggerSettingsComponent.builder()
+                .appComponent(appComponent)
+                .build();
+        settingsComponent.inject(this);
     }
 
     private void setPreferenceSummary(Preference preference, Object value) {

@@ -71,9 +71,11 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     }
 
     @Override
-    public void onSettingsActivityFinished() {
-        getPreferenceData();
-        refreshWeather(selectedLocation, selectedUnit, Constants.API_KEY, selectedForecastCount);
+    public void onSettingsActivityFinished(boolean isChangeMade) {
+        if(isChangeMade) {
+            getPreferenceData();
+            refreshWeather(selectedLocation, selectedUnit, Constants.API_KEY, selectedForecastCount);
+        }
     }
 
     private void refreshWeather(String location, String unit, String apiKey, int forecastCount) {

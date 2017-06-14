@@ -36,6 +36,6 @@ public interface HomeMVP {
 
         void onLocationSelected(String selectedLocation);
 
-        void onSettingsActivityFinished();
+        void onSettingsActivityFinished(boolean isChangeMade);
     }
 }

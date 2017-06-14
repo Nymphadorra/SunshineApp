@@ -21,7 +21,5 @@ public interface AppComponent {
 
     APIService apiService();
 
-    SharedPreferences sharedPreferences();
-
     WeatherManager weatherManager();
 }

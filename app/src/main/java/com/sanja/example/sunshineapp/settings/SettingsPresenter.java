@@ -12,7 +12,7 @@ public class SettingsPresenter extends AbstractPresenter<SettingsMVP.View> imple
 
     @Override
     public void onBackClicked() {
-        view().setIntentResult();
+        view().setIntentResult(weatherManager.isChangeMade());
         view().finish();
     }
 }

@@ -1,5 +1,6 @@
 package com.sanja.example.sunshineapp.di.components;
 
+import com.sanja.example.sunshineapp.SettingsFragment;
 import com.sanja.example.sunshineapp.di.modules.SettingsModule;
 import com.sanja.example.sunshineapp.di.scopes.ActivityScope;
 import com.sanja.example.sunshineapp.settings.SettingsActivity;
@@ -12,4 +13,6 @@ import dagger.Component;
         dependencies = AppComponent.class)
 public interface SettingsComponent {
     void inject(SettingsActivity settingsActivity);
+
+    void inject(SettingsFragment settingsFragment);
 }

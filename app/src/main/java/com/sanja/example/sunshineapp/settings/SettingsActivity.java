@@ -19,6 +19,8 @@ import butterknife.ButterKnife;
 
 public class SettingsActivity extends BaseActivity implements
         SettingsMVP.View{
+    private static final String EXTRA_IS_CHANGE_MADE = "is_change_made";
+
     @Inject SettingsMVP.Presenter presenter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -57,8 +59,9 @@ public class SettingsActivity extends BaseActivity implements
     }
 
     @Override
-    public void setIntentResult() {
+    public void setIntentResult(boolean isChangeMade) {
         Intent i = new Intent();
+        i.putExtra(EXTRA_IS_CHANGE_MADE, isChangeMade);
         setResult(RESULT_OK, i);
     }
 }

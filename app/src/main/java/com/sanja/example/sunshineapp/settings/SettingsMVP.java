@@ -6,7 +6,7 @@ public interface SettingsMVP {
     interface View{
         void finish();
 
-        void setIntentResult();
+        void setIntentResult(boolean isChangeMade);
     }
 
     interface Presenter extends BasePresenter<View>{
