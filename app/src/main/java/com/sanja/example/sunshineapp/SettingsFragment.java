@@ -20,8 +20,7 @@ import javax.inject.Inject;
 public class SettingsFragment extends PreferenceFragment implements
         SharedPreferences.OnSharedPreferenceChangeListener {
     @Inject WeatherManager weatherManager;
-
-    private SharedPreferences sharedPreferences;
+     private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +34,11 @@ public class SettingsFragment extends PreferenceFragment implements
         int count = prefScreen.getPreferenceCount();
         for (int i = 0; i < count; i++) {
             Preference p = prefScreen.getPreference(i);
-            if (!(p instanceof CheckBoxPreference)) {
+            if (!(p instanceof CheckBoxPreference) && !(p instanceof NumberPickerPreference)) {
                 String value = sharedPreferences.getString(p.getKey(), "");
+                setPreferenceSummary(p, value);
+            } else if (p instanceof NumberPickerPreference){
+                int value = sharedPreferences.getInt(p.getKey(), 10);
                 setPreferenceSummary(p, value);
             }
         }
@@ -66,6 +68,9 @@ public class SettingsFragment extends PreferenceFragment implements
         } else if (key.equals(getString(R.string.pref_key_unit))) {
             Preference pref = findPreference(key);
             pref.setSummary(sharedPreferences.getString(key, ""));
+        } else if (key.equals(getString(R.string.pref_key_forecast_count))) {
+            Preference pref = findPreference(key);
+            pref.setSummary(Integer.toString(sharedPreferences.getInt(key, 10)));
         }
         weatherManager.isChangeMade(true);
     }

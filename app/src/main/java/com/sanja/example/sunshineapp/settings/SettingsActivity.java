@@ -32,10 +32,6 @@ public class SettingsActivity extends BaseActivity implements
         ButterKnife.bind(this);
         setupToolbar(toolbar, R.string.toolbar_title_settings, true);
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.settings_fragment, new SettingsFragment())
-                .commit();
-
         presenter.bind(this);
     }
 

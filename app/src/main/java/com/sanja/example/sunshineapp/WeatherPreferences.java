@@ -43,6 +43,6 @@ public class WeatherPreferences {
     }
 
     public int getForecastCount(){
-        return sharedPreferences.getInt(PREF_KEY_FORECAST_COUNT, 7);
+        return sharedPreferences.getInt(PREF_KEY_FORECAST_COUNT, 10);
     }
 }

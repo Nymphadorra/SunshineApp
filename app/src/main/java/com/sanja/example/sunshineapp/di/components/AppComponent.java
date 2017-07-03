@@ -1,7 +1,5 @@
 package com.sanja.example.sunshineapp.di.components;
 
-import android.content.SharedPreferences;
-
 import com.sanja.example.sunshineapp.WeatherManager;
 import com.sanja.example.sunshineapp.core.api.APIService;
 import com.sanja.example.sunshineapp.di.modules.APIModule;

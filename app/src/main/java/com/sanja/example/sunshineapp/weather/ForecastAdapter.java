@@ -46,6 +46,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     public void refreshForecast(List<Forecast> forecasts) {
         this.forecasts.clear();
         this.forecasts.addAll(forecasts);
+        // First item is removed because it represents weather for current day and we want for forecast
+        // to show only upcoming weather.
         this.forecasts.remove(0);
         notifyDataSetChanged();
     }

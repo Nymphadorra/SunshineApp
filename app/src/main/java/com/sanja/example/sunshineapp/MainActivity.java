@@ -1,6 +1,5 @@
 package com.sanja.example.sunshineapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -202,8 +201,8 @@ public class MainActivity extends BaseActivity implements HomeMVP.View {
     }
 
     @OnClick(R.id.btn_manage_settings)
-    public void startSettingsActivityTODO() {
-
+    public void openSettingsActivity() {
+        startSettingsActivity();
     }
 
     @OnClick(R.id.rl_current_weather)

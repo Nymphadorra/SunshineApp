@@ -17,15 +17,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements HomeMVP.Presenter {
-    private static final String MOCK_CITY_NAME = "Zagreb";
-    private static final String UNIT = "metric";
-    private static final int MOCK_COUNT = 10;
 
     private final APIService apiService;
     private final WeatherManager weatherManager;
     private String selectedLocation;
     private String selectedUnit;
-    private int selectedForecastCount = 8;
+    private int selectedForecastCount;
 
     public HomePresenter(APIService apiService, WeatherManager weatherManager) {
         this.apiService = apiService;
@@ -35,11 +32,10 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
     @Override
     protected void onBind() {
         super.onBind();
-        if(weatherManager.getLocation().isEmpty()){
-            view().showEmptySettingsScreen();
-        } else {
-            getPreferenceData();
+        if (isPreferenceDataValid()) {
             refreshWeather(selectedLocation, selectedUnit, Constants.API_KEY, selectedForecastCount);
+        } else {
+            view().showEmptySettingsScreen();
         }
     }
 
@@ -72,8 +68,7 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
 
     @Override
     public void onSettingsActivityFinished(boolean isChangeMade) {
-        if(isChangeMade) {
-            getPreferenceData();
+        if (isChangeMade && isPreferenceDataValid()) {
             refreshWeather(selectedLocation, selectedUnit, Constants.API_KEY, selectedForecastCount);
         }
     }
@@ -135,9 +130,21 @@ public class HomePresenter extends AbstractPresenter<HomeMVP.View> implements Ho
         view().showNetworkError();
     }
 
-    private void getPreferenceData(){
-        selectedLocation = weatherManager.getLocation();
-        selectedUnit = weatherManager.getUnit();
-        // selectedForecastCount = weatherManager.getForecastCount();
+    private boolean isPreferenceDataValid() {
+        String selectedLocation = weatherManager.getLocation();
+        if (selectedLocation.isEmpty()) {
+            view().showEmptySettingsScreen();
+            return false;
+        } else {
+            this.selectedLocation = selectedLocation;
+            selectedUnit = weatherManager.getUnit();
+
+        /* If we request i.e. 8-day forecast, we'll get 8 days, but the first day will be removed
+        in ForecastAdapter because it's representing current weather, which is already handled by
+        another request. That means we only get to show following 7 days, not 8 as user wanted. This
+        is why we must increment user's preference by one. */
+            selectedForecastCount = weatherManager.getForecastCount() + 1;
+            return true;
+        }
     }
 }

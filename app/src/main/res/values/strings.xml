@@ -36,6 +36,9 @@
     <string name="pref_unit_metric">Metric</string>
     <string name="pref_unit_imperial">Imperial</string>
 
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
     <!-- Details -->
     <string name="toolbar_title_details">Details</string>
 
